@@ -5,7 +5,11 @@ import { FaEye } from 'react-icons/fa';
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
 
-const Coffee = ({ coffee }) => {
+const Coffee = ({ coffee, coffees, setCoffees }) => {
+
+    console.log(coffee._id)
+
+
     const deleteCoffee = id => {
         console.log(id)
         Swal.fire({
@@ -24,12 +28,14 @@ const Coffee = ({ coffee }) => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        if (deletedCount > 1) {
+                        if (data.deletedCount > 0) {
                             Swal.fire(
                                 'Deleted!',
                                 'Your file has been deleted.',
                                 'success'
                             )
+                            const remaining = coffees.filter(coff => coff._id !== coffee._id);
+                            setCoffees(remaining)
                         }
                     })
 
@@ -49,7 +55,7 @@ const Coffee = ({ coffee }) => {
                 </div>
                 <div className='grid grid-cols-1 gap-2'>
                     <FaEye className='bg-[#D2B48C] p-1 text-xl text-white rounded-sm cursor-pointer' />
-                    <Link to={"/updateCoffee"}><MdModeEditOutline className='bg-[#3C393B] p-1 text-xl text-white rounded-sm cursor-pointer' /></Link>
+                    <Link to={`updateCoffee/${coffee._id}`}><MdModeEditOutline className='bg-[#3C393B] p-1 text-xl text-white rounded-sm cursor-pointer' /></Link>
                     <AiFillDelete className='bg-[#EA4744] p-1 text-xl text-white rounded-sm cursor-pointer' onClick={() => { deleteCoffee(coffee._id) }} />
 
                 </div>
