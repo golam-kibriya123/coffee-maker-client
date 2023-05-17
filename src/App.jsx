@@ -1,17 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
+import Coffee from './Components/Coffee';
 
 function App() {
-  
+  const coffees = useLoaderData();
   return (
-    <>
+    <div>
+      <Link className='btn' to={"/addCoffee"}>Add Coffee</Link>
+      <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5 p-10'>
 
-      <Link to={"/addCoffee"}>add</Link>
-      <Link to={"/updateCoffee"}> update</Link>
-    </>
+        {
+          coffees.map(coffee => <Coffee key={coffee._id} coffee={coffee}></Coffee>)
+        }
+      </div>
+    </div>
   )
 }
 
